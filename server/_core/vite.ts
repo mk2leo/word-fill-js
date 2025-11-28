@@ -61,7 +61,10 @@ export function serveStatic(app: Express) {
   app.use(express.static(distPath));
 
   // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
+  // Fix TS2339: Property 'use' does not exist on type 'Express'.
+  // Fix TS7006: Parameter '_req' implicitly has an 'any' type.
+  // Fix TS7006: Parameter 'res' implicitly has an 'any' type.
+  (app as any).use("*", (_req: any, res: any) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
