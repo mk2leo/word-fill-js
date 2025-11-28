@@ -34,6 +34,9 @@ async function generateSentenceForWord(
   }
 
   try {
+    if (!DEEPSEEK_API_KEY) {
+      throw new Error('DeepSeek API Key 未配置，无法生成句子');
+    }
     const prompt = createPrompt(word, difficulty);
     const response = await callDeepSeekAPI(prompt);
     const sentence = extractSentence(response, word);
