@@ -258,7 +258,8 @@ class SDKServer {
 
   async authenticateRequest(req: Request): Promise<User> {
     // Regular authentication flow
-    const cookies = this.parseCookies(req.headers.cookie);
+    // Fix TS2339: Property 'headers' does not exist on type 'Request<...>'
+    const cookies = this.parseCookies((req as any).headers.cookie);
     const sessionCookie = cookies.get(COOKIE_NAME);
     const session = await this.verifySession(sessionCookie);
 
