@@ -3,7 +3,7 @@
   "devCommand": "pnpm run dev",
   "installCommand": "pnpm install",
   "framework": "vite",
-  "outputDirectory": "dist",
+  "outputDirectory": "dist/public",
   "regions": ["sin1"],
   "functions": {
     "api/index.ts": {
