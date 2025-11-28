@@ -3,10 +3,10 @@ import express from "express";
 import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "./server/_core/oauth"; // 路径修正
-import { appRouter } from "./server/routers"; // 路径修正
-import { createContext } from "./server/_core/context"; // 路径修正
-import { serveStatic, setupVite } from "./server/_core/vite"; // 路径修正
+import { registerOAuthRoutes } from "../server/_core/oauth"; // 路径修正
+import { appRouter } from "../server/routers"; // 路径修正
+import { createContext } from "../server/_core/context"; // 路径修正
+import { serveStatic, setupVite } from "../server/_core/vite"; // 路径修正
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
