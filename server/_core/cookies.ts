@@ -9,20 +9,24 @@ function isIpAddress(host: string) {
 }
 
 function isSecureRequest(req: Request) {
-  if (req.protocol === "https") return true;
+  // Fix TS2339: Property 'protocol' does not exist on type 'Request<...>'
+  if ((req as any).protocol === "https") return true;
 
-  const forwardedProto = req.headers["x-forwarded-proto"];
+  // Fix TS2339: Property 'headers' does not exist on type 'Request<...>'
+  const forwardedProto = (req as any).headers["x-forwarded-proto"];
   if (!forwardedProto) return false;
 
   const protoList = Array.isArray(forwardedProto)
     ? forwardedProto
     : forwardedProto.split(",");
 
+  // Fix TS7006: Parameter 'proto' implicitly has an 'any' type.
   return protoList.some((proto: string) => proto.trim().toLowerCase() === "https");
 }
 
 export function getSessionCookieOptions(
   req: Request
+  // Fix TS2344: Type '"domain" | ...' does not satisfy the constraint 'never'.
 ): Pick<CookieOptions, "httpOnly" | "path" | "sameSite" | "secure"> {
   // const hostname = req.hostname;
   // const shouldSetDomain =
