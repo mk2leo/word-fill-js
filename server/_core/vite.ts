@@ -20,8 +20,8 @@ export async function setupVite(app: Express, server: Server) {
     appType: "custom",
   });
 
-  app.use(vite.middlewares);
-  app.use("*", async (req, res, next) => {
+  (app as any).use(vite.middlewares);
+  (app as any).use("*", async (req: any, res: any, next: any) => {
     const url = req.originalUrl;
 
     try {
@@ -58,12 +58,9 @@ export function serveStatic(app: Express) {
     );
   }
 
-  app.use(express.static(distPath));
+  (app as any).use(express.static(distPath));
 
   // fall through to index.html if the file doesn't exist
-  // Fix TS2339: Property 'use' does not exist on type 'Express'.
-  // Fix TS7006: Parameter '_req' implicitly has an 'any' type.
-  // Fix TS7006: Parameter 'res' implicitly has an 'any' type.
   (app as any).use("*", (_req: any, res: any) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
