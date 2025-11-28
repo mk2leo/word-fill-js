@@ -26,7 +26,7 @@ function isSecureRequest(req: Request) {
 
 export function getSessionCookieOptions(
   req: Request
-  // Fix TS2344: Type '"domain" | ...' does not satisfy the constraint 'never'.
+
 ): Pick<CookieOptions, "httpOnly" | "path" | "sameSite" | "secure"> {
   // const hostname = req.hostname;
   // const shouldSetDomain =
