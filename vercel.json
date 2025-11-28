@@ -6,14 +6,14 @@
   "outputDirectory": "dist/public",
   "regions": ["sin1"],
   "functions": {
-    "api/index.js": {
+    "api/index.ts": {
       "maxDuration": 60
     }
   },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.js"
+      "destination": "/api/index.ts"
     }
   ]
 }
