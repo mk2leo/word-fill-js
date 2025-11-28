@@ -5,17 +5,20 @@ import { getSessionCookieOptions } from "./cookies";
 import { sdk } from "./sdk";
 
 function getQueryParam(req: Request, key: string): string | undefined {
-  const value = req.query[key];
+  // Fix TS2339: Property 'query' does not exist on type 'Request<...>'
+  const value = (req as any).query[key];
   return typeof value === "string" ? value : undefined;
 }
 
 export function registerOAuthRoutes(app: Express) {
-  app.get("/api/oauth/callback", async (req: Request, res: Response) => {
+  // Fix TS2339: Property 'get' does not exist on type 'Express'.
+  (app as any).get("/api/oauth/callback", async (req: Request, res: Response) => {
     const code = getQueryParam(req, "code");
     const state = getQueryParam(req, "state");
 
     if (!code || !state) {
-      res.status(400).json({ error: "code and state are required" });
+      // Fix TS2339: Property 'status' does not exist on type 'Response<...>'
+      (res as any).status(400).json({ error: "code and state are required" });
       return;
     }
 
@@ -24,7 +27,8 @@ export function registerOAuthRoutes(app: Express) {
       const userInfo = await sdk.getUserInfo(tokenResponse.accessToken);
 
       if (!userInfo.openId) {
-        res.status(400).json({ error: "openId missing from user info" });
+        // Fix TS2339: Property 'status'/'cookie'/'redirect' does not exist on type 'Response<...>'
+        (res as any).status(400).json({ error: "openId missing from user info" });
         return;
       }
 
@@ -42,7 +46,8 @@ export function registerOAuthRoutes(app: Express) {
       });
 
       const cookieOptions = getSessionCookieOptions(req);
-      res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+      // Fix TS2339: Property 'cookie' does not exist on type 'Response<...>'
+      (res as any).cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
 
       (res as any).redirect(302, "/");
     } catch (error) {
